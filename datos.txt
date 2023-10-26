@@ -1,0 +1,13 @@
+Pedro,Picapiedra,77777777A
+Pablo,Marmol,77777777A
+Vilma,Picapiedra,77777777A
+Betty,Marmol,77777777A
+Bob,Esponja,77777777A
+Patricio,Seastar,77777777A
+Chicho,Terremoto,77777777A
+Arale,Norimaki,77777777A
+Jonathan,Joestar,77777777A
+Luffy,D. Monkey,77777777A
+Ichigo,Kurosaki,77777777A
+Tony,Stark,77777777A
+Alejandro,Gomez Perez,77777777A
