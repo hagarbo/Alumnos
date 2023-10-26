@@ -4,8 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
+
+    private static final int LONGITUD_DNI = 9;
+    private static final String PATRON_DNI = "[0-9]{8}[a-zA-Z]";
+    private static final String[] ARRAY_LETRAS = { "T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J",
+            "Z", "S", "Q", "V", "H", "L", "C", "K", "E" };
+    private static final String[] ARRAY_INVALIDOS = { "00000000T", "00000001R", "99999999R" };
 
     public Util() {
     };
@@ -22,24 +30,69 @@ public class Util {
             myReader.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            System.out.println("[ERROR] Fichero de datos no encontrado!!!");
         } catch (Exception e) {
-            System.out.println("Datos del fichero de entrada no válidos, revisar datos");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return resultado;
+    }
+
+    public String leerDato(){
+        Scanner myReader = new Scanner(System.in);
+            while (myReader.hasNextLine()) {
+                
+            }
+            myReader.close();
+        return "";
+    }
+
+    public double leerNota(){
+        return 0;
     }
 
     private Alumno procesarLinea(String nextLine,int camposLinea) throws Exception {
 
         String[] line = nextLine.split(",");
         if (line.length != camposLinea)
-            throw new Exception();
+            throw new Exception("HA HABIDO UN ERROR EN LA LECTURA DE DATOS !!!");
         else {
+            if (!this.validar(line[2].trim())) throw new Exception("[ERROR] DNI INVALIDO !!!");
             Alumno nuevoAlumno = new Alumno(line[0].trim(), line[1].trim(), line[2].trim());
             return nuevoAlumno;
         }
 
     }
+
+    private   boolean validar(String dni) {
+
+        return (comprobarLongitud(dni) && tienePatronValido(dni) && tieneletraValida(dni)
+                && estaEnInvalidos(dni));
+    }
+
+    private boolean estaEnInvalidos(String dni) {
+
+        for (String invalido : ARRAY_INVALIDOS) {
+            if (dni.equalsIgnoreCase(invalido))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean tieneletraValida(String dni) {
+
+        int dniInt = Integer.parseInt(dni.substring(0, LONGITUD_DNI - 1));
+        String letraDNI = dni.substring(LONGITUD_DNI - 1, LONGITUD_DNI);
+        return letraDNI.equalsIgnoreCase(ARRAY_LETRAS[dniInt % ARRAY_LETRAS.length]);
+    }
+
+    private boolean tienePatronValido(String dni) {
+        Pattern pattern = Pattern.compile(PATRON_DNI);
+        Matcher matcher = pattern.matcher(dni);
+        return matcher.find();
+    }
+
+    private boolean comprobarLongitud(String dni) {
+        return dni.length() == LONGITUD_DNI;
+    }
+   
 }

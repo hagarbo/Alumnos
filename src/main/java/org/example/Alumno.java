@@ -11,6 +11,7 @@ public class Alumno {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.dni = dni;
+        this.nota = -1;
     }
 
     public Alumno(String nombre, String apellidos) {
