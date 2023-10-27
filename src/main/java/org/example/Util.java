@@ -18,52 +18,54 @@ public class Util {
     public Util() {
     };
 
-    public ArrayList<Alumno> leerNumerosFichero(String fichero,int camposLinea) {
+    public ArrayList<Alumno> leerAlumnosDeFichero(String fichero, int camposLinea) {
         ArrayList<Alumno> resultado = new ArrayList<>();
         try {
             File myFile = new File(fichero);
             Scanner myReader = new Scanner(myFile);
             while (myReader.hasNextLine()) {
-                Alumno nextAlumno = this.procesarLinea(myReader.nextLine(),camposLinea);
+                Alumno nextAlumno = this.procesarLinea(myReader.nextLine(), camposLinea);
                 resultado.add(nextAlumno);
             }
             myReader.close();
+            System.out.println("\n******************** Datos Cargados Correctamente ****************************");
 
         } catch (FileNotFoundException e) {
-            System.out.println("[ERROR] Fichero de datos no encontrado!!!");
+            System.out.println(":::::: [ERROR] Fichero de datos no encontrado!!! :::::::::");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(":::::: [ERROR] Fallo en la lectura del fichero:" + e.getMessage() + " :::::::::");
         }
         return resultado;
     }
 
-    public String leerDato(){
+    public String leerDato() {
         Scanner myReader = new Scanner(System.in);
-            while (myReader.hasNextLine()) {
-                
-            }
-            myReader.close();
+        while (myReader.hasNextLine()) {
+
+        }
+        myReader.close();
         return "";
     }
 
-    public double leerNota(){
+    public double leerNota() {
         return 0;
     }
 
-    private Alumno procesarLinea(String nextLine,int camposLinea) throws Exception {
+    private Alumno procesarLinea(String nextLine, int camposLinea) throws Exception {
 
         String[] line = nextLine.split(",");
         if (line.length != camposLinea)
             throw new Exception("HA HABIDO UN ERROR EN LA LECTURA DE DATOS !!!");
         else {
-            if (!this.validar(line[2].trim())) throw new Exception("[ERROR] DNI INVALIDO !!!");
+            if (!this.validar(line[2].trim()))
+                throw new Exception("Se han encontrado dnis Invalidos !!!");
             Alumno nuevoAlumno = new Alumno(line[0].trim(), line[1].trim(), line[2].trim());
             return nuevoAlumno;
         }
 
     }
 
-    private   boolean validar(String dni) {
+    private boolean validar(String dni) {
 
         return (comprobarLongitud(dni) && tienePatronValido(dni) && tieneletraValida(dni)
                 && estaEnInvalidos(dni));
@@ -94,5 +96,5 @@ public class Util {
     private boolean comprobarLongitud(String dni) {
         return dni.length() == LONGITUD_DNI;
     }
-   
+
 }
