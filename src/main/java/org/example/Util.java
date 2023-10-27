@@ -97,4 +97,12 @@ public class Util {
         return dni.length() == LONGITUD_DNI;
     }
 
+    public Alumno leerDatosAlumno() {
+        return null;
+    }
+
+    public String leerDni() {
+        return null;
+    }
+
 }
