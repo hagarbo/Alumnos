@@ -11,6 +11,15 @@ public class Vista {
     private static final double NOTA_MINIMA = 0.0;
     private static final double NOTA_MAXIMA = 10.0;
     private static final double CORTE_APROBADOS = 5.0;
+
+    private static final String DNI_ERROR__STRING = ":::::: [ERROR] El Dni introducido no es valido !!! :::::::::";
+    private static final String DATA_ERROR_STRING = ":::::: [ERROR] El campo no puede estar vacio !!! :::::::::";
+    private static final String NOTA_ERROR_STRING = ":::::: [ERROR] La nota debe estar entre 0 y 10 !!! :::::::::";
+    private static final String NOTA_QUERY_STRING = "******* Introduzca una nota numerica entre 0 y 10(ej:7.55): ********";
+    private static final String DNI_QUERY_STRING = "******* Introduzca un DNI valido(ej:77456765A): ********";
+    private static final String NOMBRE_QUERY_STRING = "******* Introduzca el Nombre: ********";
+    private static final String APELLIDOS_QUERY_STRING = "******* Introduzca los Apellidos: ********";
+
     Scanner scanner;
     ArrayList<Alumno> alumnos = new ArrayList<>();
     private Util util;
@@ -26,11 +35,13 @@ public class Vista {
 
             alumno.setNota(nota);
         }
-        Alumno alumnoSinNota = new Alumno("Javier", "Sin Nota", "20305060J");
+        Alumno alumnoSinNota = new Alumno("Javier", "Sin Nota", "87073567Y");
         alumnos.add(alumnoSinNota);
     }
 
     public void getStarted() {
+        scanner = new Scanner(System.in);
+        
         do {
             System.out.println("\n******************** Bienvenido a IES de Teis ****************************");
             System.out.println("\n\t1. Ver Alumnos.\t\t\t\t5. Añadir Alumno.");
@@ -38,7 +49,6 @@ public class Vista {
             System.out.println("\n\t3. Ver Alumnos Suspensos.\t\t7. Añadir Nota.");
             System.out.println("\n\t4. Ver Nota media.\t\t\t0. Salir.");
             System.out.println("\n**************************************************************************");
-            scanner = new Scanner(System.in);
 
             try {
                 int choice = scanner.nextInt();
@@ -73,30 +83,39 @@ public class Vista {
     }
 
     private void updateNota() {
-        // TO DO
+        String dni = this.util.leerDni(DNI_QUERY_STRING, DNI_ERROR__STRING);
+        Alumno alumno = findAlumno(dni);
+        if (alumno != null) {
+            double nota = this.util.leerNota(NOTA_QUERY_STRING, NOTA_ERROR_STRING);
+            this.alumnos.stream()
+                .filter(a -> a.getDni().equals(dni)).findAny().orElse(null).setNota(nota);;
+                System.out.println("\n******************* NOTA REGISTRADA CORRECTAMENTE ***********************\n");
+        } else
+            System.err.println("[ERROR] Alumno no encontrado!!!");
     }
 
     private void addAlumno() {
-        try {
-            Alumno alumno = this.util.leerDatosAlumno();
-            this.alumnos.add(alumno);
-        } catch (Exception e) {
-            System.err.println("[ERROR] " + e.getMessage());
-        }
+        Alumno alumno = new Alumno();
+        String nombre = this.util.leerDatosAlumno(NOMBRE_QUERY_STRING, DATA_ERROR_STRING);
+        String apellidos = this.util.leerDatosAlumno(APELLIDOS_QUERY_STRING, DATA_ERROR_STRING);
+        String dni = this.util.leerDni(DNI_QUERY_STRING, DNI_ERROR__STRING);
+        alumno.setNombre(nombre);
+        alumno.setApellidos(apellidos);
+        alumno.setDni(dni);
+        alumno.setNota(NOTA_MINIMA-1);
+        this.alumnos.add(alumno);
+        System.out.println("\n******************* ALUMNO CREADO CORRECTAMENTE ***********************\n");
     }
 
     private void deleteAlumno() {
-        try {
-            String dni = this.util.leerDni();
-            Alumno alumno = findAlumno(dni);
-            if (alumno != null) {
-                this.alumnos.remove(alumno);
-                System.out.println("\n******************* ALUMNO BORRADO CORRECTAMENTE ***********************\n");
-            } else
-                System.err.println("[ERROR] Alumno no encontrado!!!");
-        } catch (Exception e) {
-            System.err.println("[ERROR] " + e.getMessage());
-        }
+        String dni = this.util.leerDni(DNI_QUERY_STRING,DNI_ERROR__STRING);
+        Alumno alumno = findAlumno(dni);
+        if (alumno != null) {
+            this.alumnos.remove(alumno);
+            System.out.println("\n******************* ALUMNO BORRADO CORRECTAMENTE ***********************\n");
+        } else
+            System.err.println("[ERROR] Alumno no encontrado!!!");
+
     }
 
     private Alumno findAlumno(String validDni) {
@@ -141,7 +160,7 @@ public class Vista {
     private void mostrarNotaMedia() {
         System.out.println("\n******************** Estos chic@s necesitan mejorar ***************************\n");
         System.out.println("> Nota media del IES de Teis: " + String.format("%.2f", calcularNotaMedia()));
-        System.out.println("\n***********************************************************************************");
+        System.out.println("\n*********************************************************************************");
     }
 
     private double calcularNotaMedia() {

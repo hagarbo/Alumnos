@@ -19,6 +19,9 @@ public class Alumno {
         this.apellidos = apellidos;
     }
 
+    public Alumno(){
+    }
+
     public String getNombre() {
         return nombre;
     }

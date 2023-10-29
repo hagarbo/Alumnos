@@ -31,24 +31,11 @@ public class Util {
             System.out.println("\n******************** Datos Cargados Correctamente ****************************");
 
         } catch (FileNotFoundException e) {
-            System.out.println(":::::: [ERROR] Fichero de datos no encontrado!!! :::::::::");
+            System.err.println(":::::: [ERROR] Fichero de datos no encontrado!!! :::::::::");
         } catch (Exception e) {
-            System.out.println(":::::: [ERROR] Fallo en la lectura del fichero:" + e.getMessage() + " :::::::::");
+            System.err.println(":::::: [ERROR] Fallo en la lectura del fichero:" + e.getMessage() + " :::::::::");
         }
         return resultado;
-    }
-
-    public String leerDato() {
-        Scanner myReader = new Scanner(System.in);
-        while (myReader.hasNextLine()) {
-
-        }
-        myReader.close();
-        return "";
-    }
-
-    public double leerNota() {
-        return 0;
     }
 
     private Alumno procesarLinea(String nextLine, int camposLinea) throws Exception {
@@ -97,12 +84,43 @@ public class Util {
         return dni.length() == LONGITUD_DNI;
     }
 
-    public Alumno leerDatosAlumno() {
-        return null;
+    public String leerDatosAlumno(String outputMsg,String errMsg) {
+        System.out.println(outputMsg);
+        String datos = this.leerDato();
+        if (!datos.equals("")) return  datos;
+        else {
+            System.out.println(errMsg);
+            return this.leerDatosAlumno(outputMsg,errMsg);
+        }
     }
 
-    public String leerDni() {
-        return null;
+    public String leerDni(String outputMsg,String errMsg) {
+        System.out.println(outputMsg);
+        String dni = this.leerDato();
+        if (this.validar(dni)) return dni;
+        else {
+            System.err.println(errMsg);
+            return this.leerDni(outputMsg,errMsg);
+        }
+    }
+    
+    public double leerNota(String outputMsg,String errMsg) {
+        System.out.println(outputMsg);
+        String dato = this.leerDato();
+        try {
+            double nota = Double.parseDouble(dato);
+            if (nota>=0.0 && nota <=10.0) return nota;
+            else throw new Exception();
+        } catch (Exception e) {
+            System.out.println(errMsg);
+            return this.leerNota(outputMsg,errMsg);
+        }     
+    }
+
+    private String leerDato() {
+        Scanner sc = new Scanner(System.in);
+        String input=sc.nextLine();
+        return input;
     }
 
 }
