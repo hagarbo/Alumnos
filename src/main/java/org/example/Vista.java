@@ -41,7 +41,7 @@ public class Vista {
 
     public void getStarted() {
         scanner = new Scanner(System.in);
-        
+
         do {
             System.out.println("\n******************** Bienvenido a IES de Teis ****************************");
             System.out.println("\n\t1. Ver Alumnos.\t\t\t\t5. Añadir Alumno.");
@@ -88,8 +88,9 @@ public class Vista {
         if (alumno != null) {
             double nota = this.util.leerNota(NOTA_QUERY_STRING, NOTA_ERROR_STRING);
             this.alumnos.stream()
-                .filter(a -> a.getDni().equals(dni)).findAny().orElse(null).setNota(nota);;
-                System.out.println("\n******************* NOTA REGISTRADA CORRECTAMENTE ***********************\n");
+                    .filter(a -> a.getDni().equals(dni)).findAny().orElse(null).setNota(nota);
+            ;
+            System.out.println("\n******************* NOTA REGISTRADA CORRECTAMENTE ***********************\n");
         } else
             System.err.println("[ERROR] Alumno no encontrado!!!");
     }
@@ -102,13 +103,13 @@ public class Vista {
         alumno.setNombre(nombre);
         alumno.setApellidos(apellidos);
         alumno.setDni(dni);
-        alumno.setNota(NOTA_MINIMA-1);
+        alumno.setNota(NOTA_MINIMA - 1);
         this.alumnos.add(alumno);
         System.out.println("\n******************* ALUMNO CREADO CORRECTAMENTE ***********************\n");
     }
 
     private void deleteAlumno() {
-        String dni = this.util.leerDni(DNI_QUERY_STRING,DNI_ERROR__STRING);
+        String dni = this.util.leerDni(DNI_QUERY_STRING, DNI_ERROR__STRING);
         Alumno alumno = findAlumno(dni);
         if (alumno != null) {
             this.alumnos.remove(alumno);
@@ -150,7 +151,7 @@ public class Vista {
 
     private void mostrarAlumno(Alumno alumno) {
         String calificacion = (alumno.getNota() < NOTA_MINIMA) ? "Sin Calificar"
-                : "" + String.format("%.2f", alumno.getNota());
+                : String.format("%.2f", alumno.getNota());
         System.out.println("> " + alumno.getApellidos() +
                 ", " + alumno.getNombre()
                 + "\t\t > DNI: " + alumno.getDni()
