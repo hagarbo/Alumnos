@@ -1,13 +1,13 @@
-Pedro,   Picapiedra   ,  36396290D   
+Pedro,Picapiedra,36396290D
 Pablo,Marmol Blanco,55242102N
-Vilma  ,  Picapiedra,88926415C
-   Betty,Marmol Rosado,05567385M
-Bob Eduardo,  Esponja  ,38943060N
+Vilma,Picapiedra,88926415C
+Betty,Marmol Rosado,05567385M
+Bob Eduardo,Esponja,38943060N
 Patricio,Seastar,93649754X
-  Chicho,Terremoto,  31296184S
+Chicho,Terremoto,31296184S
 Arale,Norimaki,96610445A
 Jonathan,Joestar,85598152H
-Luffy,Monkey D.  ,25918950C
-Ichigo,Kurosaki,30432510Z
-Tony Jose ,Stark  ,33215171C
-Pepe  ,Gomez Perez,  58225164C
+Luffy,Monkey D.,25918950C
+Tony Jose,Stark,33215171C
+Pepe,Gomez Perez,58225164C
+Jose Juan,Perez Perez,44080194G

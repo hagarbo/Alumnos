@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ public class Util {
 
     private static final int LONGITUD_DNI = 9;
     private static final String PATRON_DNI = "[0-9]{8}[a-zA-Z]";
+    private static final String DELIMITADOR = ",";
     private static final String[] ARRAY_LETRAS = { "T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J",
             "Z", "S", "Q", "V", "H", "L", "C", "K", "E" };
     private static final String[] ARRAY_INVALIDOS = { "00000000T", "00000001R", "99999999R" };
@@ -36,6 +38,19 @@ public class Util {
             System.err.println(":::::: [ERROR] Fallo en la lectura del fichero:" + e.getMessage() + " :::::::::");
         }
         return resultado;
+    }
+
+    public void guardarDatosEnFichero(String fichero, ArrayList<Alumno> datos) {
+        try (FileWriter fileWriter = new FileWriter(fichero)) {
+            for (Alumno alumno : datos) {
+                String linea = alumno.getNombre() + DELIMITADOR + alumno.getApellidos() + DELIMITADOR + alumno.getDni()
+                        + "\n";
+                fileWriter.write(linea);
+            }
+        } catch (Exception e) {
+            System.err.println(":::::: [ERROR] Fallo al guardar los datos");
+        }
+
     }
 
     private Alumno procesarLinea(String nextLine, int camposLinea) throws Exception {
@@ -84,42 +99,46 @@ public class Util {
         return dni.length() == LONGITUD_DNI;
     }
 
-    public String leerDatosAlumno(String outputMsg,String errMsg) {
+    public String leerDatosAlumno(String outputMsg, String errMsg) {
         System.out.println(outputMsg);
         String datos = this.leerDato();
-        if (!datos.equals("")) return  datos;
+        if (!datos.equals(""))
+            return datos;
         else {
             System.out.println(errMsg);
-            return this.leerDatosAlumno(outputMsg,errMsg);
+            return this.leerDatosAlumno(outputMsg, errMsg);
         }
     }
 
-    public String leerDni(String outputMsg,String errMsg) {
+    public String leerDni(String outputMsg, String errMsg) {
         System.out.println(outputMsg);
         String dni = this.leerDato();
-        if (this.validar(dni)) return dni;
+        if (this.validar(dni))
+            return dni;
         else {
             System.err.println(errMsg);
-            return this.leerDni(outputMsg,errMsg);
+            return this.leerDni(outputMsg, errMsg);
         }
     }
-    
-    public double leerNota(String outputMsg,String errMsg) {
+
+    public double leerNota(String outputMsg, String errMsg) {
         System.out.println(outputMsg);
         String dato = this.leerDato();
         try {
             double nota = Double.parseDouble(dato);
-            if (nota>=0.0 && nota <=10.0) return nota;
-            else throw new Exception();
+            if (nota >= 0.0 && nota <= 10.0)
+                return nota;
+            else
+                throw new Exception();
         } catch (Exception e) {
             System.out.println(errMsg);
-            return this.leerNota(outputMsg,errMsg);
-        }     
+            return this.leerNota(outputMsg, errMsg);
+        }
     }
 
     private String leerDato() {
         Scanner sc = new Scanner(System.in);
-        String input=sc.nextLine();
+        String input = sc.nextLine();
         return input;
     }
 

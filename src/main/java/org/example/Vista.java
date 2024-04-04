@@ -105,6 +105,7 @@ public class Vista {
         alumno.setDni(dni);
         alumno.setNota(NOTA_MINIMA - 1);
         this.alumnos.add(alumno);
+        this.util.guardarDatosEnFichero(INPUT_FILE, this.alumnos);
         System.out.println("\n******************* ALUMNO CREADO CORRECTAMENTE ***********************\n");
     }
 
@@ -113,6 +114,7 @@ public class Vista {
         Alumno alumno = findAlumno(dni);
         if (alumno != null) {
             this.alumnos.remove(alumno);
+            this.util.guardarDatosEnFichero(INPUT_FILE, this.alumnos);
             System.out.println("\n******************* ALUMNO BORRADO CORRECTAMENTE ***********************\n");
         } else
             System.err.println("[ERROR] Alumno no encontrado!!!");
